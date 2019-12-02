@@ -1,6 +1,7 @@
 package org.serasmi.learning.weather.controllers;
 
 import org.serasmi.learning.weather.WeatherProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import java.io.IOException;
 @Controller
 public class MainController {
 
+  @Autowired
   private WeatherProvider weatherProvider;
 
   @GetMapping("/weather")

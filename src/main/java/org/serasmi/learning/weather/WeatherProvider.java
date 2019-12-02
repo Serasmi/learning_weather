@@ -1,5 +1,6 @@
 package org.serasmi.learning.weather;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -11,6 +12,8 @@ import java.net.URL;
 @Component
 public class WeatherProvider {
 
+  // TODO: Needs to configure cache expired time.
+  @Cacheable("ulr")
   public String getWeather(String sUrl) throws IOException {
     URL url = new URL(sUrl);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
