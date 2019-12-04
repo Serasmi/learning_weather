@@ -12,9 +12,10 @@ import java.net.URL;
 @Component
 public class WeatherProvider {
 
-  // TODO: Needs to configure cache expired time.
   @Cacheable(value = "weather", key = "#sUrl")
   public String getWeather(String sUrl) throws IOException {
+    System.out.println("Get weather from API");
+
     URL url = new URL(sUrl);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
