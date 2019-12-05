@@ -1,7 +1,6 @@
-package org.serasmi.learning.weather;
+package org.serasmi.learning.weather.provider;
 
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
+import org.serasmi.learning.weather.WeatherData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,14 +8,22 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@Component
-public class WeatherProvider {
+public class OWMWeatherProvider implements WeatherProvider {
 
-  @Cacheable(value = "weather", key = "#sUrl")
-  public String getWeather(String sUrl) throws IOException {
+  // TODO: needs to use real API
+  private static final String API_URI = "http://jsonplaceholder.typicode.com/posts?_limit=10%22";
+
+  private String city;
+
+  public OWMWeatherProvider(String city) {
+    this.city = city;
+  }
+
+  @Override
+  public WeatherData getWeather() throws IOException {
     System.out.println("Get weather from API");
 
-    URL url = new URL(sUrl);
+    URL url = new URL(API_URI);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
     con.setRequestMethod("GET");
@@ -28,10 +35,10 @@ public class WeatherProvider {
       while ((inputLine = in.readLine()) != null) {
         content.append(inputLine);
       }
-      return content.toString();
+      return new WeatherData(this.city, content.toString(), "humidity");
     } catch (final Exception ex) {
       ex.printStackTrace();
-      return null;
+      return new WeatherData(this.city, null, null);
     }
   }
 }
